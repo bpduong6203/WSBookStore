@@ -1,0 +1,58 @@
+/* Đặt màu nền và màu chữ cho toàn bộ trang */
+body {
+    background-color: #f7f7f7; /* Màu nền nhẹ nhàng */
+    color: #333; /* Màu chữ tối giản */
+    font-family: 'Arial', sans-serif; /* Phông chữ đơn giản */
+}
+
+/* Định dạng tiêu đề */
+h3 {
+    text-align: center; /* Căn giữa tiêu đề */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+}
+
+/* Định dạng form */
+form {
+    max-width: 400px; /* Chiều rộng tối đa của form */
+    margin: auto; /* Căn giữa form trên trang */
+    padding: 20px; /* Đệm xung quanh nội dung của form */
+    background-color: #fff; /* Màu nền cho form */
+    border-radius: 5px; /* Bo góc cho form */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ cho form */
+}
+
+/* Định dạng các trường nhập liệu */
+input {
+    width: 100%; /* Chiều rộng tối đa */
+    padding: 10px; /* Đệm bên trong */
+    margin-bottom: 20px; /* Khoảng cách dưới mỗi trường nhập */
+    border: 1px solid #ddd; /* Viền mỏng */
+    border-radius: 5px; /* Bo góc */
+}
+
+/* Định dạng nút submit */
+button.dark {
+    width: 100%; /* Chiều rộng tối đa */
+    padding: 10px; /* Đệm bên trong */
+    border: none; /* Không viền */
+    border-radius: 5px; /* Bo góc */
+    background-color: #5c6bc0; /* Màu nền tối */
+    color: white; /* Màu chữ sáng */
+    cursor: pointer; /* Con trỏ chuột khi di chuyển vào nút */
+}
+
+button.dark:hover {
+    background-color: #3f51b5; /* Màu nền khi di chuột vào */
+}
+
+/* Định dạng tooltip */
+span.tooltip {
+    cursor: help; /* Con trỏ chuột dạng trợ giúp */
+    text-decoration: underline; /* Gạch chân */
+    color: #5c6bc0; /* Màu chữ */
+}
+
+span.tooltip:hover {
+    color: #3f51b5; /* Màu chữ khi di chuột vào */
+}
+

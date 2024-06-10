@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <th:block th:replace="~{layout::link-css}"></th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '490011543377848',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0'
+            });
+
+            FB.AppEvents.logPageView();
+
+            // Kiểm tra trạng thái đăng nhập khi tải trang
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        };
+
+        // Hàm để xử lý phản hồi từ FB.getLoginStatus
+        function statusChangeCallback(response) {
+            if (response.status === 'connected') {
+                var accessToken = response.authResponse.accessToken;
+                var userID = response.authResponse.userID;
+                console.log('User ID: ' + userID);
+                console.log('Access Token: ' + accessToken);
+                authenticateWithServer(accessToken, userID);
+            } else {
+                console.log('User not authenticated');
+            }
+        }
+
+        // Hàm để kiểm tra trạng thái đăng nhập khi nhấn vào nút đăng nhập Facebook
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        // Hàm để gửi thông tin người dùng đến máy chủ để xác thực và tạo phiên đăng nhập
+        function authenticateWithServer(accessToken, userID) {
+            $.ajax({
+                url: '/authenticate-with-facebook',
+                method: 'POST',
+                data: {
+                    accessToken: accessToken,
+                    userID: userID
+                },
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = '/home';
+                    } else {
+                        console.log('Authentication failed');
+                    }
+                },
+                error: function(error) {
+                    console.log('Error: ' + error);
+                }
+            });
+        }
+
+        // Tải SDK Facebook không đồng bộ
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</head>
+<body>
+<th:block th:replace="~{layout::header}"></th:block>
+<div class="body">
+    <div class="veen">
+        <div class="login-btn splits">
+            <p>Bạn đã có tài khoản?</p>
+            <button class="active" id="login">Đăng nhập</button>
+            <div>
+                <ul class="wrapper" id="login-icons">
+                    <li class="icon facebook">
+                        <span class="tooltip">Facebook</span>
+                        <span>
+                            <fb:login-button
+                                    scope="public_profile,email"
+                                    onlogin="checkLoginState();">
+                            </fb:login-button>
+                        </span>
+                    </li>
+                    <li class="icon google">
+                        <span class="tooltip">Google</span>
+                        <span><a href="/oauth2/authorization/google"><img th:src="@{/image/google.png}" width="27" height="27"></a></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="rgstr-btn splits">
+            <p>Bạn chưa có tài khoản?</p>
+            <button id="register">Đăng ký</button>
+            <div>
+                <ul class="wrapper" id="register-icons">
+                    <li class="icon facebook">
+                        <span class="tooltip">Facebook</span>
+                        <span>
+                            <fb:login-button
+                                    scope="public_profile,email"
+                                    onlogin="checkLoginState();">
+                            </fb:login-button>
+                        </span>
+                    </li>
+                    <li class="icon google">
+                        <span class="tooltip">Google</span>
+                        <span><a href="/oauth2/authorization/google"><img th:src="@{/image/google.png}" width="27" height="27"></a></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrapper">
+            <!-- Form Đăng nhập -->
+            <form th:action="@{/login}" method="post" id="login-form" tabindex="500">
+                <h3>Đăng nhập</h3>
+                <div class="mail">
+                    <input type="text" required class="form-control" id="username" name="username">
+                    <label for="username" class="form-label">Tên đăng nhập</label>
+                    <div class="error-message" id="username-error"></div>
+                </div>
+                <div class="passwd">
+                    <input type="password" required class="form-control" id="password" name="password">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+                <div th:if="${error}" class="error-message">
+                    <p th:text="${error}">Sai tên đăng nhập hoặc mật khẩu</p>
+                </div>
+                <div class="submit">
+                    <button class="dark" type="submit">Đăng nhập</button>
+                </div>
+                <div>
+                    <a th:href="@{/forgot-password}">Bạn quên mật khẩu?</a>
+                </div>
+            </form>
+
+            <!-- Form Đăng ký -->
+            <form th:action="@{/register}" th:object="${user}" method="post" id="register-form" tabindex="502">
+                <h3>Đăng ký</h3>
+                <div class="form-group name">
+                    <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                    <label for="name" class="form-label">Họ và tên</label>
+                    <span class="status-icon valid">&#10003;</span>
+                    <span class="status-icon invalid">&#10007;</span>
+                </div>
+                <div class="form-group mail">
+                    <input type="email" class="form-control" th:field="*{email}" id="email" required>
+                    <label for="email" class="form-label">Email</label>
+                    <span class="status-icon valid">&#10003;</span>
+                    <span class="status-icon invalid">&#10007;</span>
+                </div>
+                <div class="form-group uid">
+                    <input type="text" class="form-control" th:field="*{username}" id="username-register" required>
+                    <label for="username-register" class="form-label">Tên đăng nhập</label>
+                    <span class="status-icon valid">&#10003;</span>
+                    <span class="status-icon invalid">&#10007;</span>
+                </div>
+                <div class="form-group passwd">
+                    <input type="password" class="form-control" th:field="*{password}" id="password-register" required>
+                    <label for="password-register" class="form-label">Mật khẩu</label>
+                    <span class="status-icon valid">&#10003;</span>
+                    <span class="status-icon invalid">&#10007;</span>
+                </div>
+                <div class="form-group passwd">
+                    <input type="password" class="form-control" th:field="*{confirmPassword}" id="confirmPassword" required>
+                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                    <span class="status-icon valid">&#10003;</span>
+                    <span class="status-icon invalid">&#10007;</span>
+                </div>
+
+                <div class="submit">
+                    <button type="submit" class="dark">Đăng ký</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout::footer}"></th:block>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".veen .rgstr-btn button").click(function () {
+            $('.veen .wrapper').addClass('move');
+            $(".veen .login-btn button").removeClass('active');
+            $(this).addClass('active');
+            $('#register-icons').hide();
+            $('#login-icons').show();
+        });
+
+        $(".veen .login-btn button").click(function () {
+            $('.veen .wrapper').removeClass('move');
+            $(".veen .rgstr-btn button").removeClass('active');
+            $(this).addClass('active');
+            $('#login-icons').hide();
+            $('#register-icons').show();
+        });
+
+        $('#register-icons').show();
+        $('#login-icons').hide();
+
+        // Kiểm tra đầu vào theo thời gian thực và hiển thị dấu tích hoặc dấu X
+        function validateField(selector, validator, asyncValidator) {
+            $(selector).on("input", function() {
+                var $this = $(this);
+                var isValid = validator($this.val());
+
+                if (isValid && asyncValidator) {
+                    asyncValidator($this.val()).then(function(isAsyncValid) {
+                        updateFieldStatus($this, isAsyncValid);
+                    });
+                } else {
+                    updateFieldStatus($this, isValid);
+                }
+            });
+        }
+
+        function updateFieldStatus($field, isValid) {
+            var formGroup = $field.closest('.form-group');
+            if (isValid) {
+                formGroup.find('.status-icon.invalid').hide();
+                formGroup.find('.status-icon.valid').show();
+            } else {
+                formGroup.find('.status-icon.valid').hide();
+                formGroup.find('.status-icon.invalid').show();
+            }
+        }
+
+        validateField("#username-register", function(value) {
+            return value.length >= 3;
+        }, function(value) {
+            return $.ajax({
+                url: '/check-username',
+                data: { username: value },
+                method: 'GET'
+            }).then(function(response) {
+                return response;
+            })
+        });
+
+        validateField("#password-register", function(value) {
+            return value.length >= 6;
+        });
+
+        validateField("#confirmPassword", function(value) {
+            return value === $("#password-register").val();
+        });
+
+        validateField("#email", function(value) {
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailPattern.test(value);
+        });
+
+        validateField("#name", function(value) {
+            return value.trim() !== "";
+        });
+    });
+</script>
+</body>
+</html>

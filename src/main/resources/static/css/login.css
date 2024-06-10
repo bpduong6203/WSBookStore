@@ -1,0 +1,356 @@
+.body {
+    transition: all .5s;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.veen {
+    width: 70%;
+    margin: 100px auto;
+    background: rgba(255, 255, 255, .5);
+    min-height: 400px;
+    display: table;
+    position: relative;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+}
+
+.veen > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+}
+
+.veen button {
+    background: transparent;
+    background-image: linear-gradient(90deg, #5FC6E9, #000923);
+    display: inline-block;
+    padding: 10px 30px;
+    border: 3px solid #fff;
+    border-radius: 50px;
+    background-clip: padding-box;
+    position: relative;
+    color: #FFF;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    transition: all .25s;
+}
+
+.veen button.dark {
+    border-color: #white;
+    background: -webkit-linear-gradient(90deg, #5FC6E9, #000923);
+}
+
+.veen .move button.dark {
+    border-color: #white;
+    background: -webkit-linear-gradient(90deg, #000923, #5FC6E9);
+}
+
+.veen .splits p {
+    font-size: 18px;
+}
+
+.veen button:active {
+    box-shadow: none;
+}
+
+.veen button:focus {
+    outline: none;
+}
+
+.veen > .wrapper {
+    border-radius: 25px;
+    position: absolute;
+    width: 40%;
+    height: 120%;
+    top: -10%;
+    left: 5%;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    transition: all .5s;
+    color: #303030;
+    overflow: hidden;
+}
+
+.veen .wrapper > form {
+    padding: 15px 30px 30px;
+    width: 100%;
+    transition: all .5s;
+    background: #fff;
+    width: 100%;
+}
+
+.veen .wrapper > form:focus {
+    outline: none;
+}
+
+.veen .wrapper #login-form {
+    padding-top: 20%;
+    visibility: visible;
+}
+
+.veen .wrapper #register-form {
+    transform: translateY(-80%) translateX(100%);
+    visibility: hidden;
+}
+
+.veen .wrapper.move #register-form {
+    transform: translateY(-80%) translateX(0%);
+    visibility: visible;
+}
+
+.veen .wrapper.move #login-form {
+    transform: translateX(-100%);
+    visibility: hidden;
+}
+
+.veen .wrapper > form > div {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.veen .wrapper label {
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+}
+
+.veen .wrapper h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.veen .wrapper input {
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+}
+
+.veen .wrapper input:focus {
+    outline: none;
+    border-color: #ff4931;
+}
+
+.veen > .wrapper.move {
+    left: 45%;
+}
+
+.veen > .wrapper.move input:focus {
+    border-color: #000923;
+}
+
+@media (max-width: 767px) {
+    .veen {
+        padding: 5px;
+        margin: 0;
+        width: 100%;
+        display: block;
+    }
+
+    .veen > .wrapper {
+        position: relative;
+        height: auto;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .veen > div {
+        display: inline-block;
+    }
+
+    .splits {
+        width: 50%;
+        background: #fff;
+        float: left;
+    }
+
+    .splits button {
+        width: 100%;
+        border-radius: 0;
+        background: #505050;
+        border: 0;
+        opacity: .7;
+    }
+
+    .splits button.active {
+        opacity: 1;
+    }
+
+    .splits button.active {
+        opacity: 1;
+    }
+
+    .splits.rgstr-btn button.active {
+        background: -webkit-linear-gradient(90deg, #5FC6E9, #000923);
+    }
+
+    .splits.login-btn button.active {
+        background: -webkit-linear-gradient(90deg, #000923, #5FC6E9);
+    }
+
+    .splits p {
+        display: none;
+    }
+
+    .veen > .wrapper.move {
+        left: 0%;
+    }
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    box-shadow: inset 0 0 0 50px #fff;
+}
+
+p {
+    background: -webkit-linear-gradient(90deg, #5FC6E9, #000923);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.text-danger {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input {
+    padding-right: 30px;
+}
+
+.form-group .status-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+}
+
+.form-group .status-icon.valid {
+    color: green;
+}
+
+.form-group .status-icon.invalid {
+    color: red;
+}
+
+
+
+
+
+/*
+    Auther: Abdelrhman Said
+*/
+
+*:focus,
+*:active {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wrapper {
+  display: inline-flex;
+  list-style: none;
+}
+
+.wrapper .icon {
+  position: relative;
+  background: #ffffff;
+  border-radius: 50%;
+  padding: 15px;
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.wrapper .tooltip {
+  position: absolute;
+  top: 0;
+  font-size: 14px;
+  background: #ffffff;
+  color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.wrapper .tooltip::before {
+  position: absolute;
+  content: "";
+  height: 8px;
+  width: 8px;
+  background: #ffffff;
+  bottom: -3px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.wrapper .icon:hover .tooltip {
+  top: -45px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.wrapper .icon:hover span,
+.wrapper .icon:hover .tooltip {
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .facebook:hover,
+.wrapper .facebook:hover .tooltip,
+.wrapper .facebook:hover .tooltip::before {
+  background: #1877F2;
+  color: #ffffff;
+}
+
+.wrapper .google:hover,
+.wrapper .google:hover .tooltip,
+.wrapper .google:hover .tooltip::before {
+  background: #D12828;
+  color: #ffffff;
+}
+
+/* Add these styles to invert the icon colors on hover */
+.wrapper .icon img {
+  transition: filter 0.3s ease;
+}
+
+.wrapper .icon:hover img {
+  filter: invert(1);
+}
+
+
